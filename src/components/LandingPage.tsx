@@ -616,9 +616,9 @@ const LandingPage: React.FC = () => {
             <h4 className="text-sm font-bold uppercase tracking-[0.2em] text-um-gold mb-8">Academic Resources</h4>
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
               {[
-                "Belda, J. R., et al. (2025). Bridging the digital gap: An analysis of ICT competence in basic education. JILR.",
-                "Commission on Higher Education (CHED). (2022). CMO on flexible learning implementation in HEIs.",
-                "Valdez, P. N., et al. (2021). Digital pedagogy and student-centered online lessons. Philippine Journal of Sci. & Ed."
+                "Despins, M. (2024). Understanding Main Idea and Supporting Details - Creative Classroom Core.",
+                "Luo, Z. (2024). A Review of Krashen's Input Theory. Journal of Education Humanities and Social Sciences",
+                "Mudinillah, A., Sri Nur Rahmi, & Taro, N. (2024). Task-Based Language Teaching: A Systematic Review of Research and Applications. Lingeduca Journal of Language and Education Studies"
               ].map((ref, i) => (
                 <div key={i} className="flex gap-4 group cursor-pointer">
                   <ExternalLink size={16} className="flex-shrink-0 text-zinc-600 group-hover:text-um-gold transition-colors" />
