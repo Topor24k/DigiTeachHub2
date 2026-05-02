@@ -51,7 +51,7 @@
 .marquee {
   display: flex;
   gap: 2.5rem;
-  animation: marquee 140s linear infinite;
+  animation: marquee 90s linear infinite;
   width: 200%;
   will-change: transform;
   padding: 0 1rem;
