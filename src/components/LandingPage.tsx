@@ -17,6 +17,10 @@ import {
   X
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import innovationCuttingEdge from '../../Pictures/Innovations/Cutting Edge.jpg';
+import innovationExperientialApproach from '../../Pictures/Innovations/Experiential Approach.jpg';
+import innovationPhasedFramework from '../../Pictures/Innovations/Phased Framework.jpg';
+import innovationVerifiedStandard from '../../Pictures/Innovations/Verified Standard.jpg';
 
 const LandingPage: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -304,29 +308,49 @@ const LandingPage: React.FC = () => {
             <div className="order-2 lg:order-1">
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-4">
-                   <div className="bg-zinc-100 aspect-square rounded-xl flex items-center justify-center p-8">
-                     <div className="text-center">
-                        <Cpu size={40} className="mx-auto mb-4 text-zinc-400" />
-                        <p className="text-xs font-bold uppercase tracking-tighter">Cutting Edge</p>
-                     </div>
+                   <div className="relative bg-zinc-100 aspect-square rounded-xl overflow-hidden group">
+                     <img
+                       src={innovationCuttingEdge}
+                       alt="Cutting Edge"
+                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                     />
+                     <div className="absolute inset-0 bg-zinc-900/35" />
+                     <p className="absolute bottom-4 left-4 text-xs font-bold uppercase tracking-wider text-white">Cutting Edge</p>
                    </div>
-                   <div className="bg-um-red aspect-[4/5] rounded-xl overflow-hidden p-8 text-white">
-                      <ShieldCheck size={32} className="mb-4" />
-                      <h4 className="font-bold mb-2">Verified Standards</h4>
-                      <p className="text-xs text-white/70">Aligned with CHED and global benchmarks.</p>
+                   <div className="relative bg-um-red aspect-[4/5] rounded-xl overflow-hidden group">
+                      <img
+                        src={innovationVerifiedStandard}
+                        alt="Verified Standards"
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      />
+                      <div className="absolute inset-0 bg-um-red/45" />
+                      <div className="absolute bottom-4 left-4 right-4 text-white">
+                        <h4 className="font-bold mb-1">Verified Standards</h4>
+                        <p className="text-xs text-white/80">Aligned with CHED and global benchmarks.</p>
+                      </div>
                    </div>
                 </div>
                 <div className="space-y-4 pt-8">
-                   <div className="bg-zinc-900 aspect-[4/5] rounded-xl overflow-hidden p-8 text-white">
-                      <Target size={32} className="mb-4 text-um-gold" />
-                      <h4 className="font-bold mb-2">Phased Framework</h4>
-                      <p className="text-xs text-zinc-400">Systematic progression to showcase.</p>
-                   </div>
-                   <div className="bg-um-gold aspect-square rounded-xl flex items-center justify-center p-8">
-                      <div className="text-center text-zinc-900">
-                        <Users size={40} className="mx-auto mb-4" />
-                        <p className="text-xs font-bold uppercase tracking-tighter">Experiential Approach</p>
+                   <div className="relative bg-zinc-900 aspect-[4/5] rounded-xl overflow-hidden group">
+                      <img
+                        src={innovationPhasedFramework}
+                        alt="Phased Framework"
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      />
+                      <div className="absolute inset-0 bg-zinc-900/45" />
+                      <div className="absolute bottom-4 left-4 right-4 text-white">
+                        <h4 className="font-bold mb-1">Phased Framework</h4>
+                        <p className="text-xs text-zinc-200">Systematic progression to showcase.</p>
                       </div>
+                   </div>
+                   <div className="relative bg-um-gold aspect-square rounded-xl overflow-hidden group">
+                      <img
+                        src={innovationExperientialApproach}
+                        alt="Experiential Approach"
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      />
+                      <div className="absolute inset-0 bg-um-gold/35" />
+                      <p className="absolute bottom-4 left-4 text-xs font-bold uppercase tracking-wider text-white">Experiential Approach</p>
                    </div>
                 </div>
               </div>
