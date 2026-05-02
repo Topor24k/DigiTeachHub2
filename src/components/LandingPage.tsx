@@ -450,51 +450,35 @@ const LandingPage: React.FC = () => {
             </div>
           </div>
           
-          <div className="marquee-container py-12 -mx-4 sm:-mx-6 lg:-mx-8">
+          <div className="marquee-container py-16 -mx-4 sm:-mx-6 lg:-mx-8">
             <div className="marquee">
-              {[
-                { name: "Hershey Nicolle Tabanao", role: "UI/UX Facilitator", img: "/Pictures/Hershey Nicolle N. Tabanao.jpg" },
-                { name: "Shuvy Miles Espiritouso", role: "Dev Facilitator", img: "/Pictures/Shuvy Miles C. Espiritouso.jpg" },
-                { name: "John Louise Panes", role: "Tech Specialist", img: "/Pictures/John Louise Clark A. Panes.jpg" },
-                { name: "Donna Faye Casakit", role: "Design Lead", img: "/Pictures/Donna Faye A. Casakit.jpg" },
-                { name: "Richard Jr. Layar", role: "Multimedia Strategist", img: "/Pictures/Richard Jr. R. Layar.jpg" },
-                { name: "Reyshil Manibad", role: "Assessment Expert", img: "/Pictures/Reyshil M. Manibad.jpg" },
-                { name: "Ruvie Ann C Alba", role: "Mentorship Coordinator", img: "/Pictures/Ruvie Ann C. Alba.jpg" }
-              ].map((member, i) => (
-                <div key={i} className="marquee-item w-40">
-                  <div className="aspect-[3/4] bg-white border border-zinc-200 overflow-hidden group hover:border-um-red transition-all">
-                    <div className="w-full h-full bg-zinc-100 relative overflow-hidden grayscale group-hover:grayscale-0 transition-all">
-                      <img src={member.img} alt={member.name} className="w-full h-full object-cover" />
+              {/* Generate team array for seamless duplication */}
+              {(() => {
+                const teamMembers = [
+                  { name: "Hershey Nicolle Tabanao", role: "UI/UX Facilitator", img: "/Pictures/Hershey Nicolle N. Tabanao.jpg" },
+                  { name: "Shuvy Miles Espiritouso", role: "Dev Facilitator", img: "/Pictures/Shuvy Miles C. Espiritouso.jpg" },
+                  { name: "John Louise Panes", role: "Tech Specialist", img: "/Pictures/John Louise Clark A. Panes.jpg" },
+                  { name: "Donna Faye Casakit", role: "Design Lead", img: "/Pictures/Donna Faye A. Casakit.jpg" },
+                  { name: "Richard Jr. Layar", role: "Multimedia Strategist", img: "/Pictures/Richard Jr. R. Layar.jpg" },
+                  { name: "Reyshil Manibad", role: "Assessment Expert", img: "/Pictures/Reyshil M. Manibad.jpg" },
+                  { name: "Ruvie Ann C Alba", role: "Mentorship Coordinator", img: "/Pictures/Ruvie Ann C. Alba.jpg" }
+                ];
+                // Duplicate array exactly once for seamless loop
+                const duplicatedTeam = [...teamMembers, ...teamMembers];
+                return duplicatedTeam.map((member, i) => (
+                  <div key={i} className="marquee-item">
+                    <div className="aspect-[3/4] bg-white border border-zinc-200 overflow-hidden group hover:border-um-red transition-all duration-300">
+                      <div className="w-full h-full bg-zinc-100 relative overflow-hidden grayscale group-hover:grayscale-0 transition-all duration-300">
+                        <img src={member.img} alt={member.name} className="w-full h-full object-cover" />
+                      </div>
+                    </div>
+                    <div className="px-2 text-center">
+                      <h4 className="font-bold text-sm leading-tight mb-3 line-clamp-2 h-10 flex items-center justify-center">{member.name}</h4>
+                      <p className="text-[11px] uppercase tracking-widest text-zinc-500 font-semibold line-clamp-2">{member.role}</p>
                     </div>
                   </div>
-                  <div className="px-4">
-                    <h4 className="font-bold text-sm mb-1 line-clamp-2">{member.name}</h4>
-                    <p className="text-[10px] uppercase tracking-widest text-zinc-400 font-bold line-clamp-1">{member.role}</p>
-                  </div>
-                </div>
-              ))}
-              {/* Duplicate for seamless loop */}
-              {[
-                { name: "Hershey Nicolle Tabanao", role: "UI/UX Facilitator", img: "/Pictures/Hershey Nicolle N. Tabanao.jpg" },
-                { name: "Shuvy Miles Espiritouso", role: "Dev Facilitator", img: "/Pictures/Shuvy Miles C. Espiritouso.jpg" },
-                { name: "John Louise Panes", role: "Tech Specialist", img: "/Pictures/John Louise Clark A. Panes.jpg" },
-                { name: "Donna Faye Casakit", role: "Design Lead", img: "/Pictures/Donna Faye A. Casakit.jpg" },
-                { name: "Richard Jr. Layar", role: "Multimedia Strategist", img: "/Pictures/Richard Jr. R. Layar.jpg" },
-                { name: "Reyshil Manibad", role: "Assessment Expert", img: "/Pictures/Reyshil M. Manibad.jpg" },
-                { name: "Ruvie Ann C Alba", role: "Mentorship Coordinator", img: "/Pictures/Ruvie Ann C. Alba.jpg" }
-              ].map((member, i) => (
-                <div key={`duplicate-${i}`} className="marquee-item w-40">
-                  <div className="aspect-[3/4] bg-white border border-zinc-200 overflow-hidden group hover:border-um-red transition-all">
-                    <div className="w-full h-full bg-zinc-100 relative overflow-hidden grayscale group-hover:grayscale-0 transition-all">
-                      <img src={member.img} alt={member.name} className="w-full h-full object-cover" />
-                    </div>
-                  </div>
-                  <div className="px-4">
-                    <h4 className="font-bold text-sm mb-1 line-clamp-2">{member.name}</h4>
-                    <p className="text-[10px] uppercase tracking-widest text-zinc-400 font-bold line-clamp-1">{member.role}</p>
-                  </div>
-                </div>
-              ))}
+                ));
+              })()}
             </div>
           </div>
 

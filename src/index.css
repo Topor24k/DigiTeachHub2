@@ -34,23 +34,27 @@
 
 @keyframes marquee {
   0% {
-    transform: translateX(100%);
+    transform: translateX(0);
   }
   100% {
-    transform: translateX(-100%);
+    transform: translateX(-50%);
   }
 }
 
 .marquee-container {
   overflow: hidden;
   background: white;
+  width: 100%;
+  position: relative;
 }
 
 .marquee {
   display: flex;
-  gap: 2rem;
-  animation: marquee 60s linear infinite;
-  width: fit-content;
+  gap: 2.5rem;
+  animation: marquee 140s linear infinite;
+  width: 200%;
+  will-change: transform;
+  padding: 0 1rem;
 }
 
 .marquee:hover {
@@ -61,5 +65,7 @@
   flex-shrink: 0;
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 1.25rem;
+  width: 11rem;
+  min-width: 11rem;
 }
