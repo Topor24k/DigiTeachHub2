@@ -33,7 +33,7 @@ const StudentDashboard: React.FC = () => {
       lesson: "Lesson 1", 
       title: "Diagnostic Assessment", 
       progress: getLessonProgress(1), 
-      status: lessonsProgress[1]?.status || "active", 
+      status: lessonsProgress[1]?.status || "completed", 
       type: "Evaluation", 
       desc: "Personalized evaluation to identify strengths and learning gaps before starting the journey." 
     },
@@ -42,7 +42,7 @@ const StudentDashboard: React.FC = () => {
       lesson: "Lesson 2", 
       title: "Digital Content Mastery", 
       progress: getLessonProgress(2), 
-      status: lessonsProgress[2]?.status || "locked", 
+      status: lessonsProgress[2]?.status || "completed", 
       type: "Interactive", 
       desc: "Learning to transform traditional lessons into high-engagement interactive formats." 
     },
@@ -51,9 +51,9 @@ const StudentDashboard: React.FC = () => {
       lesson: "Lesson 3", 
       title: "Main Idea & Supporting Details", 
       progress: getLessonProgress(3), 
-      status: lessonsProgress[3]?.status || "locked", 
+      status: lessonsProgress[3]?.status || "active", 
       type: "Module", 
-      desc: "Digital Interactive Module focusing on core reading comprehension skills." 
+      desc: "Digital Interactive Module focusing on core reading comprehension skills. Complete activities to identify main ideas and supporting details." 
     },
     { 
       id: 4, 
@@ -66,7 +66,7 @@ const StudentDashboard: React.FC = () => {
     }
   ];
 
-  const currentLesson = lessons.find(l => l.status === 'active') || lessons[0];
+  const currentLesson = lessons.find(l => l.status === 'active') || lessons[2];
 
 
   return (

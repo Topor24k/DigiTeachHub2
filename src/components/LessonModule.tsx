@@ -42,11 +42,11 @@ const LessonModule: React.FC = () => {
   // Progress State
   const [sections, setSections] = useState<LessonSection[]>([
     { id: 'overview', title: 'Course Overview', type: 'overview', completed: true },
-    { id: 'diagnostic', title: 'What I Know (Diagnostic)', type: 'diagnostic', completed: false },
-    { id: 'learn', title: 'Core Strategy: Topic & Main Idea', type: 'learn', completed: false },
-    { id: 'practice', title: 'Guided Practice', type: 'practice', completed: false },
-    { id: 'reflect', title: 'Reflection & Closure', type: 'reflect', completed: false },
-    { id: 'references', title: 'References', type: 'references', completed: false },
+    { id: 'diagnostic', title: 'Lesson 3: Activity 1 - What I Know', type: 'diagnostic', completed: false },
+    { id: 'learn', title: 'Lesson 3: What is It?', type: 'learn', completed: false },
+    { id: 'practice', title: 'Lesson 3: Activity 2 - Assessment', type: 'practice', completed: false },
+    { id: 'reflect', title: 'Lesson 3: Activity 3 - Reflection', type: 'reflect', completed: false },
+    { id: 'references', title: 'References & Resources', type: 'references', completed: false },
   ]);
 
   const [diagnosticScore, setDiagnosticScore] = useState(0);
@@ -138,7 +138,7 @@ const LessonModule: React.FC = () => {
   const progressSteps = gradedSections.filter(s => s.completed).length;
   const progressPercent = Math.round((progressSteps / gradedSections.length) * 100);
 
-  if (lessonId > 1) {
+  if (lessonId > 3) {
     return (
       <div className="flex h-screen bg-zinc-900 items-center justify-center p-6 text-center">
         <div className="max-w-md space-y-6">
@@ -147,7 +147,7 @@ const LessonModule: React.FC = () => {
            </div>
            <h2 className="text-3xl font-bold text-white">Module in Development</h2>
            <p className="text-zinc-400">
-             This is a prototype focused on <span className="text-um-gold font-bold">Lesson 1</span>. 
+             This module focuses on <span className="text-um-gold font-bold">Lessons 1-3</span>. 
              Interactivity for Lesson {lessonId} is currently under construction as we expand the DigiTeach Hub.
            </p>
            <button 
@@ -187,7 +187,14 @@ const LessonModule: React.FC = () => {
                >
                  <ArrowLeft size={14} /> Back to Hub
                </button>
-               <h1 className="font-bold text-lg leading-tight">Lesson 1: Diagnostic Assessment & Content Mastery</h1>
+               <div className="space-y-2">
+                  <p className="text-xs font-bold uppercase tracking-widest text-zinc-400 mb-2">Module Progress</p>
+                  <div className="space-y-1">
+                     <p className="text-xs text-zinc-600"><span className="font-bold text-green-600">✓ Lesson 1:</span> Diagnostic Assessment (100%)</p>
+                     <p className="text-xs text-zinc-600"><span className="font-bold text-green-600">✓ Lesson 2:</span> Completed (100%)</p>
+                     <p className="text-xs text-zinc-600"><span className="font-bold text-um-red">→ Lesson 3:</span> Main Idea and Supporting Details</p>
+                  </div>
+               </div>
             </div>
 
             <div className="flex-grow overflow-y-auto p-4 space-y-2">
@@ -302,19 +309,21 @@ const LessonModule: React.FC = () => {
                   <h3 className="text-2xl font-bold">Theoretical and Pedagogical Rationale</h3>
                   <div className="prose prose-zinc text-zinc-600 text-sm leading-relaxed max-w-none space-y-4">
                     <p>
-                      This module is grounded in <span className="font-bold text-zinc-900">Bottom-Up and Top-Down Processing</span> theories. 
-                      Listening is not just hearing; it is an active process of decoding sounds and constructing meaning.
+                      This module is grounded in two key Second Language Acquisition (SLA) principles:
                     </p>
                     <div className="grid sm:grid-cols-2 gap-6 mt-4">
                       <div className="border-l-2 border-um-red pl-4">
-                        <h4 className="font-bold text-zinc-900 text-xs uppercase mb-1">Bottom-Up</h4>
-                        <p>Focuses on recognizing individual words and sounds (Building blocks).</p>
+                        <h4 className="font-bold text-zinc-900 text-xs uppercase mb-1">Input Hypothesis (i+1)</h4>
+                        <p>Learners are exposed to authentic listening materials slightly above their current level. Visual scaffolds, guided prompts, and structured tasks ensure that input remains comprehensible while still challenging.</p>
                       </div>
                       <div className="border-l-2 border-um-gold pl-4">
-                        <h4 className="font-bold text-zinc-900 text-xs uppercase mb-1">Top-Down</h4>
-                        <p>Uses background knowledge and context to infer the larger message.</p>
+                        <h4 className="font-bold text-zinc-900 text-xs uppercase mb-1">Task-Based Language Teaching (TBLT)</h4>
+                        <p>Learners engage in meaningful, real-world tasks such as completing graphic organizers and reflecting on safety tips. Tasks are sequenced from pre-task to while-task to post-task, ensuring scaffolding and progression.</p>
                       </div>
                     </div>
+                    <p className="pt-4">
+                      Together, these principles ensure that learners not only receive comprehensible input but also use listening strategies in purposeful tasks, strengthening both comprehension and communicative competence.
+                    </p>
                   </div>
                 </div>
 
@@ -362,8 +371,8 @@ const LessonModule: React.FC = () => {
               >
                 <div className="flex flex-col items-center">
                   <Gamepad2 size={48} className="text-um-red mb-6" />
-                  <h2 className="text-3xl font-bold mb-4">What I Know (Diagnostic)</h2>
-                  <p className="text-zinc-500">Activity 1: Match the category in <span className="font-bold">Column B</span> with the group of words in <span className="font-bold">Column A</span>.</p>
+                  <h2 className="text-3xl font-bold mb-4">Lesson 3: Activity 1 - What I Know</h2>
+                  <p className="text-zinc-500">Match the category in <span className="font-bold">Column B</span> with the group of words in <span className="font-bold">Column A</span>.</p>
                   <p className="text-xs font-bold uppercase tracking-widest text-zinc-400 mt-3">Attempted: {attemptedCount}/{diagnosticItems.length}</p>
                 </div>
 
@@ -418,8 +427,8 @@ const LessonModule: React.FC = () => {
                      <div className="w-16 h-16 bg-green-500 text-white rounded-full flex items-center justify-center mb-6 shadow-lg shadow-green-500/20">
                         <CheckCircle2 size={32} />
                      </div>
-                     <h3 className="text-2xl font-bold text-green-900 mb-2">Diagnostic Complete!</h3>
-                     <p className="text-green-700 mb-8">You answered all items. You're ready to proceed to Lesson 1: Identify the Main Idea and Supporting Details.</p>
+                     <h3 className="text-2xl font-bold text-green-900 mb-2">Activity 1 Complete!</h3>
+                     <p className="text-green-700 mb-8">Excellent! You have completed Lesson 3: Activity 1. Proceed to learn about Main Idea and Supporting Details.</p>
                      <button 
                        onClick={() => handleNextSection('diagnostic', 'learn')}
                        className="px-8 py-4 bg-zinc-900 text-white rounded-xl font-bold text-sm uppercase tracking-widest hover:scale-105 transition-transform"
@@ -440,7 +449,7 @@ const LessonModule: React.FC = () => {
                 className="space-y-12"
               >
                 <div>
-                  <h2 className="text-3xl font-bold mb-4">Lesson 1: Identify the Main Idea and Supporting Details</h2>
+                  <h2 className="text-3xl font-bold mb-4">Lesson 3: Main Idea and Supporting Details</h2>
                   <div className="bg-um-red/10 px-4 py-2 rounded-lg text-um-red font-bold text-xs uppercase tracking-widest inline-block mb-8">What is It?</div>
                 </div>
 
@@ -559,8 +568,8 @@ const LessonModule: React.FC = () => {
                 className="space-y-12"
               >
                 <div className="text-center max-w-2xl mx-auto">
-                  <div className="bg-um-red/10 px-4 py-2 rounded-lg text-um-red font-bold text-xs uppercase tracking-widest inline-block mb-6">Activity 2: Assessment</div>
-                  <h2 className="text-3xl font-bold mb-4">Watch & Organize</h2>
+                  <div className="bg-um-red/10 px-4 py-2 rounded-lg text-um-red font-bold text-xs uppercase tracking-widest inline-block mb-6">Lesson 3: Activity 2</div>
+                  <h2 className="text-3xl font-bold mb-4">Watch & Organize Information</h2>
                   <p className="text-zinc-500 leading-relaxed">
                     Watch the video <span className="font-bold text-zinc-900">Tip 4: Avoid Scams</span>. As you listen, take silent notes and pay close attention to the main idea.
                   </p>
@@ -619,10 +628,10 @@ const LessonModule: React.FC = () => {
               >
                 <div className="bg-zinc-50 p-12 rounded-3xl border border-zinc-100">
                   <div className="flex items-center gap-3 mb-8">
-                    <div className="bg-um-red/10 px-4 py-2 rounded-lg text-um-red font-bold text-xs uppercase tracking-widest inline-block">Activity 3</div>
+                    <div className="bg-um-red/10 px-4 py-2 rounded-lg text-um-red font-bold text-xs uppercase tracking-widest inline-block">Lesson 3: Activity 3</div>
                   </div>
                   
-                  <h2 className="text-3xl font-bold mb-6">What I have Learned</h2>
+                  <h2 className="text-3xl font-bold mb-6">What I Have Learned</h2>
                   <p className="text-zinc-600 mb-10 leading-relaxed">
                     Complete the following paragraph with words that you have learned about main idea and key sentence.
                   </p>
@@ -685,8 +694,8 @@ const LessonModule: React.FC = () => {
                           <Trophy size={48} />
                        </motion.div>
                        <div>
-                          <h3 className="text-3xl font-bold text-um-red mb-2">Well Done, Kayeen!</h3>
-                          <p className="text-zinc-500">You have successfully completed Lesson 1 and earned your <span className="font-bold text-zinc-900">Module Mastery Trophy</span>.</p>
+                       <h3 className="text-3xl font-bold text-um-red mb-2">Lesson 3 Complete!</h3>
+                       <p className="text-zinc-500">You have successfully completed <span className="font-bold">Lesson 3: Main Idea and Supporting Details</span> and earned your <span className="font-bold text-zinc-900">Module Mastery Trophy</span>.</p>
                        </div>
                        <button 
                          onClick={() => navigate('/dashboard')}
@@ -713,6 +722,23 @@ const LessonModule: React.FC = () => {
                 </div>
 
                 <div className="space-y-8">
+                   <div className="bg-white p-8 rounded-2xl border border-zinc-100">
+                      <h3 className="font-bold text-lg mb-6 flex items-center gap-2">
+                         <CheckCircle2 size={20} className="text-um-red" />
+                         Answer Key
+                      </h3>
+                      <div className="space-y-3 text-sm">
+                         <p className="font-bold text-zinc-900 mb-4">Activity 1: Match the category in Column B with the group of words in Column A</p>
+                         <div className="space-y-2 text-zinc-700 ml-4">
+                            <p><span className="font-bold">1.</span> c. animals</p>
+                            <p><span className="font-bold">2.</span> a. school supplies</p>
+                            <p><span className="font-bold">3.</span> e. personal protective equipment</p>
+                            <p><span className="font-bold">4.</span> b. gadgets</p>
+                            <p><span className="font-bold">5.</span> d. fruits</p>
+                         </div>
+                      </div>
+                   </div>
+
                    <div className="bg-zinc-50 p-8 rounded-2xl border border-zinc-100">
                       <h3 className="font-bold text-lg mb-6 flex items-center gap-2">
                          <Library size={20} className="text-um-red" />
@@ -742,23 +768,52 @@ const LessonModule: React.FC = () => {
                       </div>
                    </div>
 
+                   <div className="bg-white p-8 rounded-2xl border border-zinc-100">
+                      <h3 className="font-bold text-lg mb-6 flex items-center gap-2">
+                         <CheckCircle2 size={20} className="text-um-red" />
+                         Answer Key
+                      </h3>
+                      <div className="space-y-3 text-sm">
+                         <p className="font-bold text-zinc-900 mb-4">Activity 1: Match the category in Column B with the group of words in Column A</p>
+                         <div className="space-y-2 text-zinc-700 ml-4">
+                            <p><span className="font-bold">1.</span> c. animals</p>
+                            <p><span className="font-bold">2.</span> a. school supplies</p>
+                            <p><span className="font-bold">3.</span> e. personal protective equipment</p>
+                            <p><span className="font-bold">4.</span> b. gadgets</p>
+                            <p><span className="font-bold">5.</span> d. fruits</p>
+                         </div>
+                      </div>
+                   </div>
+
                    <div className="bg-um-black p-8 rounded-2xl text-white">
                       <h3 className="font-bold text-lg mb-6 flex items-center gap-2">
                          <FileText size={20} className="text-um-gold" />
-                         Pedagogical Frameworks
+                         Pedagogical Frameworks & References
                       </h3>
                       <ul className="space-y-4 text-sm text-zinc-400">
                          <li className="flex gap-3">
                             <span className="w-1.5 h-1.5 bg-um-gold rounded-full mt-2 flex-shrink-0" />
-                            <span>Anderson, A., & Lynch, T. (1988). *Listening*. Oxford University Press.</span>
+                            <span>Despins, M. (2024). Understanding Main Idea and Supporting Details - Creative Classroom Core. <span className="italic">Creative Classroom Core</span>. https://creativeclassroomcore.com/understanding-main-idea-and-supporting-details/</span>
                          </li>
                          <li className="flex gap-3">
                             <span className="w-1.5 h-1.5 bg-um-gold rounded-full mt-2 flex-shrink-0" />
-                            <span>Rost, M. (2011). *Teaching and Researching: Listening*. Routledge.</span>
+                            <span>Luo, Z. (2024). A Review of Krashen's Input Theory. <span className="italic">Journal of Education Humanities and Social Sciences</span>, 26, 130–135. https://doi.org/10.54097/3fnf5786</span>
                          </li>
                          <li className="flex gap-3">
                             <span className="w-1.5 h-1.5 bg-um-gold rounded-full mt-2 flex-shrink-0" />
-                            <span>Vandergrift, L., & Goh, C. (2012). *Teaching and Learning Second Language Listening: Metacognition in Action*. Routledge.</span>
+                            <span>Mudinillah, A., Sri Nur Rahmi, & Taro, N. (2024). Task-Based Language Teaching: A Systematic Review of Research and Applications. <span className="italic">Lingeduca Journal of Language and Education Studies</span>, 3(2), 102–115. https://doi.org/10.70177/lingeduca.v3i2.1352</span>
+                         </li>
+                         <li className="flex gap-3">
+                            <span className="w-1.5 h-1.5 bg-um-gold rounded-full mt-2 flex-shrink-0" />
+                            <span>Educational Jar (August 14, 2020). Main Idea and Supporting Details [Video]. <span className="italic">Youtube</span>. https://youtu.be/LWFnpeimPfE?si=dO6eePty1zv5rPwA</span>
+                         </li>
+                         <li className="flex gap-3">
+                            <span className="w-1.5 h-1.5 bg-um-gold rounded-full mt-2 flex-shrink-0" />
+                            <span>NZGetReady (December 20, 2016). Remember: Drop, Cover, Hold [Video]. <span className="italic">Youtube</span>. https://youtu.be/t36YzCnmjEU?si=1cNKCu4w46u0iZnC</span>
+                         </li>
+                         <li className="flex gap-3">
+                            <span className="w-1.5 h-1.5 bg-um-gold rounded-full mt-2 flex-shrink-0" />
+                            <span>Google (March 24, 2016). Tip 4: Avoid Scams [Video]. <span className="italic">Youtube</span>. https://youtu.be/BX3y_an89PQ?si=kSCjvrgS88TgKgPO</span>
                          </li>
                       </ul>
                    </div>

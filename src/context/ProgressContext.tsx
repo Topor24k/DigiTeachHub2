@@ -18,27 +18,19 @@ const ProgressContext = createContext<ProgressContextType | undefined>(undefined
 
 export const ProgressProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [lessonsProgress, setLessonsProgress] = useState<Record<number, LessonProgress>>(() => {
-    const saved = localStorage.getItem('um_progress_v2');
-    return saved ? JSON.parse(saved) : {
-      1: { id: 1, progress: 0, status: 'active', completedSections: [] },
-      2: { id: 2, progress: 0, status: 'locked', completedSections: [] },
-      3: { id: 3, progress: 0, status: 'locked', completedSections: [] },
+    // Always use fresh state - clear old localStorage and use new defaults
+    localStorage.removeItem('um_progress_v2');
+    return {
+      1: { id: 1, progress: 100, status: 'completed', completedSections: ['overview', 'diagnostic', 'learn', 'practice', 'reflect'] },
+      2: { id: 2, progress: 100, status: 'completed', completedSections: ['overview', 'diagnostic', 'learn', 'practice', 'reflect'] },
+      3: { id: 3, progress: 0, status: 'active', completedSections: [] },
       4: { id: 4, progress: 0, status: 'locked', completedSections: [] },
     };
   });
 
   useEffect(() => {
+    // Save current progress state to localStorage
     localStorage.setItem('um_progress_v2', JSON.stringify(lessonsProgress));
-
-    // Auto-reset logic: If Lesson 1 is completed, wait 50 seconds then reset
-    if (lessonsProgress[1]?.status === 'completed') {
-      const timer = setTimeout(() => {
-        resetProgress();
-        // Notify user or just reload to show initial state
-        window.location.reload();
-      }, 50000); // 50 seconds
-      return () => clearTimeout(timer);
-    }
   }, [lessonsProgress]);
 
   const updateSectionProgress = (lessonId: number, sectionId: string) => {
@@ -79,9 +71,9 @@ export const ProgressProvider: React.FC<{ children: React.ReactNode }> = ({ chil
 
   const resetProgress = () => {
     const initial = {
-      1: { id: 1, progress: 0, status: 'active' as const, completedSections: [] },
-      2: { id: 2, progress: 0, status: 'locked' as const, completedSections: [] },
-      3: { id: 3, progress: 0, status: 'locked' as const, completedSections: [] },
+      1: { id: 1, progress: 100, status: 'completed' as const, completedSections: ['overview', 'diagnostic', 'learn', 'practice', 'reflect'] },
+      2: { id: 2, progress: 100, status: 'completed' as const, completedSections: ['overview', 'diagnostic', 'learn', 'practice', 'reflect'] },
+      3: { id: 3, progress: 0, status: 'active' as const, completedSections: [] },
       4: { id: 4, progress: 0, status: 'locked' as const, completedSections: [] },
     };
     setLessonsProgress(initial);
