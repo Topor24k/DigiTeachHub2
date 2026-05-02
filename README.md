@@ -134,10 +134,6 @@ For production, set environment variables in Vercel Dashboard.
 - Reyshil M. Manibad - Assessment Expert
 - Ruvie Ann C. Alba - Mentorship Coordinator
 
-## 📜 License
-
-Proprietary - University of Mindanao
-
 ## 📧 Support
 
 For inquiries about DigiTeach Hub:
