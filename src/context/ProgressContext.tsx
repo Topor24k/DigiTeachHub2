@@ -49,8 +49,9 @@ export const ProgressProvider: React.FC<{ children: React.ReactNode }> = ({ chil
       if (lesson.completedSections.includes(sectionId)) return prev;
 
       const newCompletedSections = [...lesson.completedSections, sectionId];
-      const totalSections = 6; // overview, diagnostic, learn, practice, reflect, references
-      const newProgress = Math.min(100, Math.round((newCompletedSections.length / totalSections) * 100));
+      const gradedSections = ['overview', 'diagnostic', 'learn', 'practice', 'reflect'];
+      const completedGradedCount = newCompletedSections.filter(s => gradedSections.includes(s)).length;
+      const newProgress = Math.min(100, Math.round((completedGradedCount / gradedSections.length) * 100));
       
       const newStatus = newProgress === 100 ? 'completed' : 'active';
       

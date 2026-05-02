@@ -50,8 +50,33 @@ const LessonModule: React.FC = () => {
   ]);
 
   const [diagnosticScore, setDiagnosticScore] = useState(0);
-  const [isDiagnosticPassed, setIsDiagnosticPassed] = useState(false);
+  const [diagnosticAnswers, setDiagnosticAnswers] = useState<Record<number, string>>({});
+  const [reflectionAnswers, setReflectionAnswers] = useState<Record<number, string>>({});
   const [showTrophy, setShowTrophy] = useState(false);
+
+  const diagnosticItems = [
+    { text: 'cat, dog, cow', options: ['animals', 'fruits', 'gadgets'], correct: 'animals' },
+    { text: 'paper, pen, crayons', options: ['school supplies', 'PPE', 'gadgets'], correct: 'school supplies' },
+    { text: 'Face mask, alcohol, face shield', options: ['PPE', 'animals', 'fruits'], correct: 'PPE' },
+    { text: 'laptop, mobile phone, and computer', options: ['gadgets', 'fruits', 'school supplies'], correct: 'gadgets' },
+    { text: 'mango, banana, apple', options: ['fruits', 'animals', 'PPE'], correct: 'fruits' }
+  ];
+
+  const reflectionItems = [
+    'most important thought',
+    'is mostly about',
+    'person',
+    'thing',
+    'idea',
+    'facts/reasons',
+    'examples',
+    'interactive activities'
+  ];
+
+  const attemptedCount = Object.keys(diagnosticAnswers).length;
+  const isDiagnosticPassed = attemptedCount === diagnosticItems.length;
+  const reflectionAttemptedCount = reflectionItems.filter((_, i) => (reflectionAnswers[i] || '').trim().length > 0).length;
+  const isReflectionComplete = reflectionAttemptedCount === reflectionItems.length;
 
   // Auto-collapse sidebar on mobile
   useEffect(() => {
@@ -77,6 +102,17 @@ const LessonModule: React.FC = () => {
     }
   }, [lessonsProgress, lessonId]);
 
+  useEffect(() => {
+    const score = diagnosticItems.reduce((total, item, index) => {
+      return total + (diagnosticAnswers[index] === item.correct ? 1 : 0);
+    }, 0);
+    setDiagnosticScore(score);
+
+    if (Object.keys(diagnosticAnswers).length === diagnosticItems.length) {
+      updateSectionProgress(lessonId, 'diagnostic');
+    }
+  }, [diagnosticAnswers, lessonId, updateSectionProgress]);
+
   const isSectionUnlocked = (sectionId: string) => {
     const index = sections.findIndex(s => s.id === sectionId);
     if (index === 0) return true; // First section always unlocked
@@ -89,8 +125,18 @@ const LessonModule: React.FC = () => {
     setActiveSection(nextId);
   };
 
-  const progressSteps = sections.filter(s => s.completed).length;
-  const progressPercent = Math.round((progressSteps / sections.length) * 100);
+  const renderReflectionInput = (index: number, placeholder: string) => (
+    <input
+      value={reflectionAnswers[index] || ''}
+      onChange={(e) => setReflectionAnswers(prev => ({ ...prev, [index]: e.target.value }))}
+      placeholder={placeholder}
+      className="px-3 py-1 border-b-2 border-zinc-300 focus:border-um-red outline-none bg-transparent text-zinc-900 min-w-[170px]"
+    />
+  );
+
+  const gradedSections = sections.filter(s => s.id !== 'references');
+  const progressSteps = gradedSections.filter(s => s.completed).length;
+  const progressPercent = Math.round((progressSteps / gradedSections.length) * 100);
 
   if (lessonId > 1) {
     return (
@@ -318,6 +364,7 @@ const LessonModule: React.FC = () => {
                   <Gamepad2 size={48} className="text-um-red mb-6" />
                   <h2 className="text-3xl font-bold mb-4">What I Know (Diagnostic)</h2>
                   <p className="text-zinc-500">Activity 1: Match the category in <span className="font-bold">Column B</span> with the group of words in <span className="font-bold">Column A</span>.</p>
+                  <p className="text-xs font-bold uppercase tracking-widest text-zinc-400 mt-3">Attempted: {attemptedCount}/{diagnosticItems.length}</p>
                 </div>
 
                 {!isDiagnosticPassed ? (
@@ -328,36 +375,35 @@ const LessonModule: React.FC = () => {
                     </div>
                     
                     <div className="grid gap-3">
-                      {[
-                        { text: "cat, dog, cow", options: ["animals", "fruits", "gadgets"], correct: "animals" },
-                        { text: "paper, pen, crayons", options: ["school supplies", "PPE", "gadgets"], correct: "school supplies" },
-                        { text: "Face mask, alcohol, face shield", options: ["PPE", "animals", "fruits"], correct: "PPE" },
-                        { text: "laptop, mobile phone, and computer", options: ["gadgets", "fruits", "school supplies"], correct: "gadgets" },
-                        { text: "mango, banana, apple", options: ["fruits", "animals", "PPE"], correct: "fruits" }
-                      ].map((item, i) => (
+                      {diagnosticItems.map((item, i) => (
                         <div key={i} className="bg-white p-4 rounded-xl border border-zinc-100 flex flex-col sm:flex-row items-center justify-between shadow-sm gap-4">
                            <div className="flex items-center gap-3">
                              <span className="text-xs font-bold text-zinc-300">{i + 1}.</span>
                              <span className="font-medium text-sm text-left">{item.text}</span>
                            </div>
                            <div className="flex gap-2">
-                              {item.options.map(opt => (
+                              {item.options.map(opt => {
+                                const selected = diagnosticAnswers[i];
+                                const isAnswered = selected !== undefined;
+                                const isSelected = selected === opt;
+                                return (
                                 <button 
                                   key={opt}
-                                  onClick={() => {
-                                    if(opt === item.correct) {
-                                      setDiagnosticScore(s => s + 1);
-                                      if(diagnosticScore + 1 >= 5) {
-                                        setIsDiagnosticPassed(true);
-                                        updateSectionProgress(lessonId, 'diagnostic');
-                                      }
-                                    }
-                                  }}
-                                  className="px-3 py-1 bg-zinc-50 hover:bg-um-red hover:text-white rounded text-[10px] font-bold uppercase transition-all"
+                                  disabled={isAnswered}
+                                  onClick={() => setDiagnosticAnswers(prev => ({ ...prev, [i]: opt }))}
+                                  className={`px-3 py-1 rounded text-[10px] font-bold uppercase transition-all ${
+                                    isSelected
+                                      ? opt === item.correct
+                                        ? 'bg-green-500 text-white'
+                                        : 'bg-red-500 text-white'
+                                      : isAnswered
+                                        ? 'bg-zinc-100 text-zinc-400 cursor-not-allowed'
+                                        : 'bg-zinc-50 hover:bg-um-red hover:text-white'
+                                  }`}
                                 >
                                   {opt}
                                 </button>
-                              ))}
+                              )})}
                            </div>
                         </div>
                       ))}
@@ -373,7 +419,7 @@ const LessonModule: React.FC = () => {
                         <CheckCircle2 size={32} />
                      </div>
                      <h3 className="text-2xl font-bold text-green-900 mb-2">Diagnostic Complete!</h3>
-                     <p className="text-green-700 mb-8">You're ready to proceed to Lesson 1: Identify the Main Idea and Supporting Details.</p>
+                     <p className="text-green-700 mb-8">You answered all items. You're ready to proceed to Lesson 1: Identify the Main Idea and Supporting Details.</p>
                      <button 
                        onClick={() => handleNextSection('diagnostic', 'learn')}
                        className="px-8 py-4 bg-zinc-900 text-white rounded-xl font-bold text-sm uppercase tracking-widest hover:scale-105 transition-transform"
@@ -581,36 +627,41 @@ const LessonModule: React.FC = () => {
                     Complete the following paragraph with words that you have learned about main idea and key sentence.
                   </p>
 
+                  <p className="text-xs font-bold uppercase tracking-widest text-zinc-400 mb-8">Answered: {reflectionAttemptedCount}/{reflectionItems.length}</p>
+
                   <div className="space-y-6 text-lg font-medium leading-loose text-zinc-900">
                     <p>
-                      In this module, I learned that the main idea is the (1) <span className="px-4 py-1 border-b-2 border-um-red text-um-red">most important thought</span> about a text/speech. 
-                      The main idea is what the whole text/speech (2) <span className="px-4 py-1 border-b-2 border-zinc-300 italic text-zinc-400">is mostly about</span>. 
-                      It usually tells about the (3) <span className="px-4 py-1 border-b-2 border-zinc-300 italic text-zinc-400">person</span>, (4) <span className="px-4 py-1 border-b-2 border-zinc-300 italic text-zinc-400">thing</span>, or (5) <span className="px-4 py-1 border-b-2 border-zinc-300 italic text-zinc-400">idea</span>.
+                      In this module, I learned that the main idea is the (1) {renderReflectionInput(0, 'most important thought')} about a text/speech. 
+                      The main idea is what the whole text/speech (2) {renderReflectionInput(1, 'is mostly about')}. 
+                      It usually tells about the (3) {renderReflectionInput(2, 'person')}, (4) {renderReflectionInput(3, 'thing')}, or (5) {renderReflectionInput(4, 'idea')}.
                     </p>
                     <p>
-                      Supporting details are the (6) <span className="px-4 py-1 border-b-2 border-zinc-300 italic text-zinc-400">facts/reasons</span> that explain or strengthen the main idea. 
-                      They provide (7) <span className="px-4 py-1 border-b-2 border-zinc-300 italic text-zinc-400">examples</span> that make the message clearer and easier to understand.
+                      Supporting details are the (6) {renderReflectionInput(5, 'facts/reasons')} that explain or strengthen the main idea. 
+                      They provide (7) {renderReflectionInput(6, 'examples')} that make the message clearer and easier to understand.
                     </p>
                     <p>
-                      The best part of the lesson I love most is the (8) <span className="px-4 py-1 border-b-2 border-zinc-300 italic text-zinc-400">interactive activities</span>.
+                      The best part of the lesson I love most is the (8) {renderReflectionInput(7, 'interactive activities')}.
                     </p>
                   </div>
 
                   <div className="mt-16 pt-8 border-t border-zinc-100 flex gap-4">
                      <button 
+                       disabled={!isReflectionComplete}
                        onClick={() => {
                          setShowTrophy(true);
                          updateSectionProgress(lessonId, 'reflect');
-                         updateSectionProgress(lessonId, 'references'); // Mark both as reflection is essentially the end
                        }}
-                       className="px-10 py-5 bg-zinc-900 text-white rounded-2xl font-bold text-sm uppercase tracking-widest hover:bg-um-red transition-all shadow-xl shadow-zinc-900/10"
+                       className={`px-10 py-5 rounded-2xl font-bold text-sm uppercase tracking-widest transition-all shadow-xl ${
+                         isReflectionComplete
+                           ? 'bg-zinc-900 text-white hover:bg-um-red shadow-zinc-900/10'
+                           : 'bg-zinc-200 text-zinc-500 cursor-not-allowed shadow-zinc-200/20'
+                       }`}
                      >
-                       Complete Module & Get Trophy
+                       {isReflectionComplete ? 'Complete Module & Get Trophy' : 'Answer All Items to Complete'}
                      </button>
                      <button 
                        onClick={() => {
                          setActiveSection('references');
-                         updateSectionProgress(lessonId, 'reflect');
                        }}
                        className="px-10 py-5 bg-zinc-100 text-zinc-900 rounded-2xl font-bold text-sm uppercase tracking-widest hover:bg-zinc-200 transition-all"
                      >
@@ -634,7 +685,7 @@ const LessonModule: React.FC = () => {
                           <Trophy size={48} />
                        </motion.div>
                        <div>
-                          <h3 className="text-3xl font-bold text-um-red mb-2">Well Done, John!</h3>
+                          <h3 className="text-3xl font-bold text-um-red mb-2">Well Done, Kayeen!</h3>
                           <p className="text-zinc-500">You have successfully completed Lesson 1 and earned your <span className="font-bold text-zinc-900">Module Mastery Trophy</span>.</p>
                        </div>
                        <button 

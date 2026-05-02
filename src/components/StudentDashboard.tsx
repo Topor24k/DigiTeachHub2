@@ -145,7 +145,7 @@ const StudentDashboard: React.FC = () => {
           <div className="mb-10 flex flex-col md:flex-row md:items-end justify-between gap-6">
             <div>
               <p className="text-um-red font-bold uppercase tracking-widest text-xs mb-2">Academic Year 2026-2027</p>
-              <h2 className="text-3xl font-bold">Welcome back, Kayeen! 👋</h2>
+              <h2 className="text-3xl font-bold">Welcome back, Kayeen!</h2>
               <p className="text-zinc-500 mt-2">
                 {currentLesson.progress === 0 
                   ? `Your first goal is to complete the ${currentLesson.title}.` 
